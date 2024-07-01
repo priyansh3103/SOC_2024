@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def q_learning(env, num_episodes, alpha=0.1, gamma=0.9):
+    k= 1
     epsilon = 1/k
     Q = np.zeros([env.observation_space.n, env.action_space.n])
     cumulative_rewards = []
@@ -19,7 +20,7 @@ def q_learning(env, num_episodes, alpha=0.1, gamma=0.9):
             else:
                 action = np.argmax(Q[state])  # Exploit
 
-            next_state, reward, done, info = env.step(action)
+            next_state, reward, done, truncated, info = env.step(action)
             total_reward += reward
 
             # Q-learning update
@@ -41,9 +42,8 @@ num_episodes = 3000
 alpha = 0.1  # Learning rate
 gamma = 0.9  # Discount factor
 epsilon = 0.1  # Exploration rate
-k= 1
 
-q_learning_Q, q_learning_rewards = q_learning(env, num_episodes, alpha, gamma, epsilon)
+q_learning_Q, q_learning_rewards = q_learning(env, num_episodes, alpha, gamma)
 
 # Plotting cumulative rewards
 plt.plot(range(num_episodes), np.cumsum(q_learning_rewards), label='Q-learning')
