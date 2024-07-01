@@ -2,19 +2,21 @@ import gymnasium as gym
 import numpy as np
 import matplotlib.pyplot as plt
 
-def monte_carlo_control(env, num_episodes, gamma=0.9, epsilon=0.1):
+def monte_carlo_control(env, num_episodes, gamma=0.9):
     Q = np.zeros([env.observation_space.n, env.action_space.n])
     returns_sum = {}
     returns_count = {}
 
     cumulative_rewards = []
+    k = 1
 
     for i in range(num_episodes):
         state = env.reset()[0]  # Reset environment and get initial state
         episode = []
         done = False
         total_reward = 0
-
+        epsilon = 1 / k
+        k = k+1
         # Generate an episode
         while not done:
             if np.random.uniform(0, 1) < epsilon:
@@ -56,7 +58,6 @@ def monte_carlo_control(env, num_episodes, gamma=0.9, epsilon=0.1):
 env = gym.make('Taxi-v3')
 num_episodes = 3000
 gamma = 0.9
-epsilon = 0.1
 
 mc_Q, mc_rewards = monte_carlo_control(env, num_episodes, gamma, epsilon)
 
