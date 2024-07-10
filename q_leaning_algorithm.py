@@ -13,6 +13,7 @@ def q_learning(env, num_episodes, alpha=0.1, gamma=0.9):
         done = False
         total_reward = 0
         dummy = True
+        k = 0
         while not done:
             if dummy:
                 if np.random.uniform(0, 1) < epsilon:
